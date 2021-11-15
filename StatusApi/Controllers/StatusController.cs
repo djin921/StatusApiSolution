@@ -1,17 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StatusApi.Services;
 
 namespace StatusApi.Controllers;
 
 public class StatusController : ControllerBase
 {
+    private readonly ISystemTime _systemTime;
+
+    public StatusController(ISystemTime systemTime)
+    {
+        _systemTime = systemTime;
+    }
+
     // GET /status
     [HttpGet("/status")]
     public ActionResult GetTheStatus()
     {
         var response = new StatusResponse
         {
-            Message = "The Server is Great.. Thanks",
-            LastChecked = DateTime.Now
+            Message = "The Service is Great.. Thanks",
+            LastChecked = _systemTime.GetCurrent()
         };
         return Ok(response);
     }
